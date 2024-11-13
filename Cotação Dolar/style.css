@@ -1,0 +1,21 @@
+/* Botão */
+button {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    background-color: #b61515; /* Cor laranja para o botão */
+    
+}
+
+button:hover {
+    background-color: #044068; /* Tom mais escuro de laranja no hover */
+}
+#resultado {
+    
+    color: #044068;
+}
+
+#taxa {
+    font-size: 0.7em;
+    color: #044068;
+}

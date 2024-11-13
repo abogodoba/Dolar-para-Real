@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Conversor de Real para Dólar</title>
+</head>
+<body>
+    <h1>Real/Dólar</h1>
+  <br><label for="valorReal">Digite o valor em Reais (R$):</label><br>
+    <input type="number" id="valorReal" step="0.01" placeholder="Digite o valor em R$"><br>
+    <br><button onclick="converter()">Converter</button><br>
+
+    <p id="resultado"></p><br>
+    <p id="taxa"></p><br>
+
+    <script>
+        let taxaCambio = 5.79;
+
+        async function atualizarTaxaCambio() {
+            try {
+                const response = await fetch(`https://api.exchangerate-api.com/v4/latest/BRL`);
+                const data = await response.json();
+                taxaCambio = data.rates.USD;
+                document.getElementById("taxa").innerText = `Taxa de câmbio atual: 1 USD = ${taxaCambio.toFixed(2)} BRL`;
+            } catch (error) {
+                document.getElementById("taxa").innerText = "Não foi possível atualizar a taxa de câmbio.";
+                console.error("Erro ao buscar taxa de câmbio:", error);
+            }
+        }
+
+        atualizarTaxaCambio();
+
+        function converter() {
+            const valorReal = parseFloat(document.getElementById("valorReal").value);
+            
+            if (isNaN(valorReal) || valorReal <= 0) {
+                document.getElementById("resultado").innerText = "Por favor, insira um valor válido.";
+                return;
+            }
+
+            const valorDolar = valorReal / taxaCambio;
+            document.getElementById("resultado").innerText = 
+                `R$ ${valorReal.toFixed(2)} equivalem a $ ${valorDolar.toFixed(2)} USD.`;
+        }
+    </script>
+</body>
+</html>
